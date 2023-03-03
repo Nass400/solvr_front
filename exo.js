@@ -54,47 +54,74 @@ class Map {
     return rawMap;
   }
     
+  // getColoredMap() {
+  //   let rawMap = this.getRawMap();
+  //   let usedColors = {};
+  
+  //   for (let i = 0; i < rawMap.length; i++) {
+  //     for (let j = 0; j < rawMap[i].length; j++) {
+  //       if (rawMap[i][j]=== DEFAULT_EARTH_COLOR) {
+  //         let color;
+  //         let island = [];
+  //         let queue = [[i, j]];
+  
+  //         while (queue.length > 0) {
+  //           let [x, y] = queue.shift();
+  //           if (rawMap[x][y] === DEFAULT_EARTH_COLOR) {
+  //             rawMap[x][y] = null;
+  //             island.push([x, y]);
+  
+  //             if (x > 0) queue.push([x - 1, y]);
+  //             if (y > 0) queue.push([x, y - 1]);
+  //             if (x < rawMap.length - 1) queue.push([x + 1, y]);
+  //             if (y < rawMap[x].length - 1) queue.push([x, y + 1]);
+  //           }
+  //         }
+  
+  //         while (!color || usedColors[color]) {
+  //           color = this.generateRandomColor();
+  //         }
+
+  //         usedColors[color] = true;
+  
+  //         for (let k = 0; k < island.length; k++) {
+  //           let [x, y] = island[k];
+  //           rawMap[x][y] = color;
+  //         }
+  //       }
+  //     }
+  //   }
+  
+  //   return rawMap;
+  // }
+
   getColoredMap() {
-    let rawMap = this.getRawMap();
+    let coloredmap = this.getRawMap();
     let usedColors = {};
   
-    for (let i = 0; i < rawMap.length; i++) {
-      for (let j = 0; j < rawMap[i].length; j++) {
-        if (rawMap[i][j]=== DEFAULT_EARTH_COLOR) {
+    const colorate = (i, j, color) => {
+      if (i >= 0 && j >= 0 && i < coloredmap.length && j < coloredmap[i].length && coloredmap[i][j] === DEFAULT_EARTH_COLOR) {
+        coloredmap[i][j] = color;
+        colorate(i + 1, j, color); 
+        colorate(i, j + 1, color); 
+        colorate(i - 1, j, color); 
+        colorate(i, j - 1, color); 
+      }
+    };
+  
+    for (let i = 0; i < coloredmap.length; i++) {
+      for (let j = 0; j < coloredmap[i].length; j++) {
+        if (coloredmap[i][j] === DEFAULT_EARTH_COLOR) {
           let color;
-          let island = [];
-          let queue = [[i, j]];
-  
-          while (queue.length > 0) {
-            let [x, y] = queue.shift();
-            if (rawMap[x][y] === DEFAULT_EARTH_COLOR) {
-              rawMap[x][y] = null;
-              island.push([x, y]);
-  
-              if (x > 0) queue.push([x - 1, y]);
-              if (y > 0) queue.push([x, y - 1]);
-              if (x < rawMap.length - 1) queue.push([x + 1, y]);
-              if (y < rawMap[x].length - 1) queue.push([x, y + 1]);
-            }
-          }
-  
           while (!color || usedColors[color]) {
             color = this.generateRandomColor();
           }
-
           usedColors[color] = true;
-  
-          for (let k = 0; k < island.length; k++) {
-            let [x, y] = island[k];
-            rawMap[x][y] = color;
-          }
+          colorate(i, j, color);
         }
       }
     }
   
-    return rawMap;
+    return coloredmap;
   }
-
-
-
 }
