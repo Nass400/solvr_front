@@ -1,40 +1,15 @@
-# Instructions
+# Explanation
 
-## Description
+## getColoredMap() 
 
-You have a 2 dimentional map with a certain height and width. At coordinates x, y the map can be either earth or water.
+The getColoredMap function takes the Rawmap and colors all the land squares using a recursive algorithm.
 
-An island is a contiguous group of earth coordinates. For instance in the following map there is an island at the top left corner and one at the bottom right:
+First the function initializes an empty object to store used colors and gets the raw map. 
 
-EARTH | EARTH | WATER
+Then it defines a colorate function that takes the current position, a color, and recursively colors all the neighboring land squares with the same color.
 
-WATER | WATER | EARTH
+Next the function loops through each square in the raw map. If the square is land, it generates a random color that hasn't been used before for a neighboring land square. 
 
-WATER | EARTH | EARTH
+Then it calls the colorate function with the current position and the selected color to color all the connected land squares.
 
-Two earth coordinates in diagonal are not considered from the same island.
-
-## Algorithm
-
-Initially all earth coordinates are colored in dark grey.
-
-You can play decreasing and increasing size to see the effect.
-
-So far the color and uncolor buttons have no effect, that's what you're gonna change!
-
-![intial_image](initial.png)
-
-Find a simple algorithm to color all islands with a different color.
-
-Basically you should see something like that in the end
-
-![final_image](final.png)
-
-
-## Implementation
-
-Modify the code to implement your algorithm.
-
-You'll find a random color generator with the method `generateRandomColor`.
-
-The edge case where the generated color is the same as a previously generated color is not to be taken into account.
+And then returns the colored map.
